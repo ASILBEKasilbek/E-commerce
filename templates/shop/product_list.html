@@ -1,0 +1,52 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold text-blue-600 mb-6">Mahsulotlar</h1>
+    <form method="GET" action="{% url 'product_list' %}" class="mb-6 flex space-x-2">
+        <input type="text" name="q" value="{{ query }}" placeholder="Mahsulot qidiring..." class="p-2 w-full max-w-md border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+        <button type="submit" class="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Qidirish</button>
+    </form>
+    <div class="category-nav flex flex-wrap gap-4 mb-6">
+        <a href="{% url 'product_list' %}" class="{% if not current_category %}font-bold text-blue-600{% else %}text-gray-600{% endif %} hover:text-blue-800">Barcha kategoriyalar</a>
+        {% for category in categories %}
+            <a href="{% url 'product_list_by_category' category.slug %}" class="{% if current_category == category %}font-bold text-blue-600{% else %}text-gray-600{% endif %} hover:text-blue-800">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% if products %}
+            {% for product in products %}
+                <div class="product-card bg-white p-4 rounded-lg shadow-md transition-transform duration-300">
+                    <img src="{{ product.main_image.url }}" alt="{{ product.name }}" class="w-full h-48 object-cover rounded-md mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">{{ product.name }}</h3>
+                    {% if product.discount_price %}
+                        <p class="text-gray-500 line-through">${{ product.price }}</p>
+                        <p class="text-blue-600 font-bold">${{ product.discount_price }}</p>
+                    {% else %}
+                        <p class="text-blue-600 font-bold">${{ product.price }}</p>
+                    {% endif %}
+                    <div class="flex flex-col gap-2">
+                        <!-- Birinchi qatordagi "Tafsilotlar" tugmasi -->
+                        <a href="{% url 'product_detail' product.slug %}" class="w-full text-center p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                            Tafsilotlar
+                        </a>
+
+                        {% if product.is_available %}
+                            <!-- Ikkinchi qatorda ikkita tugma yonma-yon -->
+                            <div class="flex gap-2">
+                                <a href="{% url 'add_to_cart' product.pk %}" class="flex-1 text-center p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">
+                                    Savatga
+                                </a>
+                                <a href="{% url 'add_to_wishlist' product.pk %}" class="flex-1 text-center p-2 bg-green-500 text-white rounded-lg hover:bg-green-600">
+                                    Sevimliga
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-gray-600">Hech qanday mahsulot topilmadi.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold text-blue-600 mb-6">Sizning savatingiz</h1>
+    {% if cart.items.exists %}
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b">
+                        <th class="p-4 text-left">Mahsulot</th>
+                        <th class="p-4 text-left">Miqdor</th>
+                        <th class="p-4 text-left">Narx</th>
+                        <th class="p-4 text-left">Jami</th>
+                        <th class="p-4 text-left">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart.items.all %}
+                        <tr class="border-b">
+                            <td class="p-4">{{ item.product.name }}</td>
+                            <td class="p-4">{{ item.quantity }}</td>
+                            <td class="p-4">${{ item.product.get_price }}</td>
+                            <td class="p-4">${{ item.get_total_price|floatformat:2 }}</td>
+                            <td class="p-4">
+                                <a href="{% url 'remove_from_cart' item.product.pk %}" class="text-red-600 hover:text-red-800">O'chirish</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="border-t">
+                        <td colspan="3" class="p-4 font-bold">Jami</td>
+                        <td class="p-4 font-bold">${{ cart.get_total|floatformat:2 }}</td>
+                        <td class="p-4"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="{% url 'checkout' %}" class="mt-6 inline-block p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Buyurtma berish</a>
+        </div>
+    {% else %}
+        <p class="text-gray-600">Savatingiz bo'sh.</p>
+    {% endif %}
+    <a href="{% url 'product_list' %}" class="mt-4 inline-block text-blue-600 hover:text-blue-800">Xaridni davom ettirish</a>
+{% endblock %}

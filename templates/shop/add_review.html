@@ -1,0 +1,18 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold text-blue-600 mb-6">{{ product.name }} uchun sharh qo'shish</h1>
+    <form method="POST" class="bg-white p-6 rounded-lg shadow-md max-w-lg">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="rating" class="block text-gray-700 font-semibold">Reyting (1-5):</label>
+            <input type="number" name="rating" min="1" max="5" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+        <div class="mb-4">
+            <label for="comment" class="block text-gray-700 font-semibold">Fikr:</label>
+            <textarea name="comment" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"></textarea>
+        </div>
+        <button type="submit" class="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sharhni yuborish</button>
+    </form>
+    <a href="{% url 'product_detail' product.slug %}" class="mt-4 inline-block text-blue-600 hover:text-blue-800">Orqaga</a>
+{% endblock %}

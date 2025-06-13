@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold text-blue-600 mb-6">Ro'yxatdan o'tish</h1>
+    <form method="POST" class="bg-white p-6 rounded-lg shadow-md max-w-lg">
+        {% csrf_token %}
+        <div class="mb-4">
+            <label for="username" class="block text-gray-700 font-semibold">Foydalanuvchi nomi:</label>
+            <input type="text" name="username" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+        <div class="mb-4">
+            <label for="password1" class="block text-gray-700 font-semibold">Parol:</label>
+            <input type="password" name="password1" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+        <div class="mb-4">
+            <label for="password2" class="block text-gray-700 font-semibold">Parolni tasdiqlash:</label>
+            <input type="password" name="password2" required class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+        </div>
+        <button type="submit" class="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Ro'yxatdan o'tish</button>
+    </form>
+    <p class="mt-4 text-gray-600">Akkauntingiz bormi? <a href="{% url 'login' %}" class="text-blue-600 hover:text-blue-800">Kirish</a></p>
+{% endblock %}

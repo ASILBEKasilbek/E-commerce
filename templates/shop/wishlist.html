@@ -1,0 +1,33 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold text-blue-600 mb-6">Sevimlilar</h1>
+    {% if wishlist %}
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b">
+                        <th class="p-4 text-left">Mahsulot</th>
+                        <th class="p-4 text-left">Narx</th>
+                        <th class="p-4 text-left">Amallar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in wishlist %}
+                        <tr class="border-b">
+                            <td class="p-4">{{ item.product.name }}</td>
+                            <td class="p-4">${{ item.product.get_price }}</td>
+                            <td class="p-4 flex space-x-2">
+                                <a href="{% url 'add_to_cart' item.product.pk %}" class="p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600">Savatga qo'shish</a>
+                                <a href="{% url 'remove_from_wishlist' item.product.pk %}" class="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600">O'chirish</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <p class="text-gray-600">Sevimlilar ro'yxati bo'sh.</p>
+    {% endif %}
+    <a href="{% url 'product_list' %}" class="mt-4 inline-block text-blue-600 hover:text-blue-800">Xaridni davom ettirish</a>
+{% endblock %}

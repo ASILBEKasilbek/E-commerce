@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+*.pyo
+*.pyd
+
+# Virtual environment
+env/
+venv/
+ENV/
+VENV/
+
+# VSCode (agar ishlatilsa)
+.vscode/
+
+# PyCharm
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Django specific
+*.log
+*.pot
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+
+# Env file (maxfiy ma'lumotlar uchun)
+.env
+.env.*
+
+# Django migrations
+*/migrations/
+**/migrations/
+!*/migrations/__init__.py
+
+# Media va static fayllar (agar siz ularni version controlga qo‘shmasangiz)
+media/
+staticfiles/
+static/
+
+# Coverage va test fayllar
+htmlcov/
+.coverage
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+*.cover
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Build
+build/
+dist/
+*.egg-info/
+
+# Node.js agar ishlatilsa frontendda
+node_modules/
