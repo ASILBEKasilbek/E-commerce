@@ -1,0 +1,8 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+    <h1 class="text-3xl font-bold text-blue-600 mb-6">Tizimdan chiqdingiz</h1>
+    <p class="text-gray-600 mb-4">Siz muvaffaqiyatli tizimdan chiqdingiz.</p>
+    <a href="{% url 'product_list' %}" class="p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Bosh sahifaga qaytish</a>
+    <a href="{% url 'login' %}" class="p-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 ml-2">Qayta kirish</a>
+{% endblock %}
