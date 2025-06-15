@@ -2,10 +2,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
-from .models import Product, Category, Cart, CartItem, Wishlist, Review, Order, OrderItem, Coupon
+from .models import Product, Category, Cart, CartItem, Wishlist, Review, Order, OrderItem, Coupon, ShippingAddress
 from django.contrib import messages
 from django.utils import timezone
-from decimal import Decimal  # Decimal uchun import qo'shildi
+from decimal import Decimal
 
 def register(request):
     if request.method == 'POST':
@@ -121,6 +121,9 @@ def checkout(request):
         email = request.POST.get('email')
         phone = request.POST.get('phone')
         address = request.POST.get('address')
+        country = request.POST.get('country')
+        city = request.POST.get('city')
+        postal_code = request.POST.get('postal_code')
         coupon_code = request.POST.get('coupon_code')
 
         total_price = cart.get_total()
@@ -133,7 +136,6 @@ def checkout(request):
                     valid_from__lte=timezone.now(),
                     valid_to__gte=timezone.now()
                 )
-                # Chegirma hisoblashda Decimal ga aylantirish
                 discount = Decimal(str(1 - coupon.discount_percent / 100))
                 total_price = total_price * discount
             except Coupon.DoesNotExist:
@@ -149,6 +151,15 @@ def checkout(request):
             coupon=coupon
         )
 
+        ShippingAddress.objects.create(
+            user=request.user,
+            order=order,
+            country=country,
+            city=city,
+            postal_code=postal_code,
+            address=address
+        )
+
         for item in cart.items.all():
             OrderItem.objects.create(
                 order=order,
@@ -159,6 +170,11 @@ def checkout(request):
 
         cart.items.all().delete()
         messages.success(request, "Buyurtma muvaffaqiyatli yaratildi!")
-        return redirect('product_list')
+        return redirect('order_list')  # order_list ga yo'naltirish
 
     return render(request, 'shop/checkout.html', {'cart': cart})
+
+@login_required
+def order_list(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'shop/order_list.html', {'orders': orders})
